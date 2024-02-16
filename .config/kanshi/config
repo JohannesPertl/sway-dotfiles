@@ -1,0 +1,19 @@
+# Default profile enabling eDP-1
+profile {
+    output eDP-1 enable
+}
+
+# Disable laptop screen on HDMI connected
+profile {
+    output HDMI-A-1 enable
+    output eDP-1 disable
+}
+
+# Enable laptop screen on HDMI disconnected
+profile {
+    output HDMI-A-1 disable
+    output eDP-1 enable
+}
+
+
+
