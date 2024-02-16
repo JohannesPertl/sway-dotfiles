@@ -15,6 +15,9 @@ setup_git() {
   git config --global user.name "${git_name}"
   git config --global user.email "${git_email}"
   git config --global credential.helper store
+  # always use ssh
+  git config --global url."git@github.com:".insteadOf "https://github.com/"
+
 }
 
 setup_fish() {
@@ -96,7 +99,6 @@ setup_tools() {
   sudo cp bin/mousewheel.sh /usr/bin/scroll
 
   setup_httpie
-  wget -qO- https://raw.githubusercontent.com/rettier/c/master/install.sh | bash
   # The Fuck
   if ! command -v fuck; then
     pipx install thefuck && pipx ensurepath && 
