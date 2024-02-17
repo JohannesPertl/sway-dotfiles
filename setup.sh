@@ -140,6 +140,20 @@ setup_vscode() {
   fi
 }
 
+setup_neovim() {
+  brew install neovim
+  # Nvchad 
+  ## nerdfont
+  mkdir -p ~/.local/share/fonts
+  cd ~/.local/share/fonts
+  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+  unzip JetBrainsMono.zip
+  rm JetBrainsMono.zip
+
+  sudo apt install -y ripgrep
+  git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+}
+
 setup_dev_stuff() {
   # Java 18
   # sudo apt install openjdk-18-jdk -y &&
@@ -148,7 +162,9 @@ setup_dev_stuff() {
   sudo curl -sL https://firebase.tools | bash &&
 	  dart pub global activate flutterfire_cli &&
 	  fish -c "fish_add_path $HOME/.pub-cache/bin"
-
+  
+  setup_vscode
+  setup_neovim
 }
 
 setup_grub_customizer() {
