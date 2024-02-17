@@ -14,6 +14,8 @@ abbr -a gaa git add --all
 abbr -a gc git commit -m
 abbr -a gp git push
 abbr -a gd git diff
+abbr -a c wl-copy
+abbr -a p wl-paste
 
 # Source: https://github.com/TheR1D/shell_gpt/issues/128
 # Alias sgpt as ai without quotes
