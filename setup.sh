@@ -64,6 +64,7 @@ setup_dependencies() {
   setup_fish
   setup_nvm
   setup_homebrew
+  setup_fonts
 }
 
 setup_chrome() {
@@ -140,16 +141,18 @@ setup_vscode() {
   fi
 }
 
-setup_neovim() {
-  brew install neovim
-  # Nvchad 
-  ## nerdfont
+setup_fonts() {
+  # Nerdfonts (required for nvchad) 
   mkdir -p ~/.local/share/fonts
   cd ~/.local/share/fonts
   wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
   unzip JetBrainsMono.zip
   rm JetBrainsMono.zip
+}
 
+setup_neovim() {
+  brew install neovim
+  # Nvchad 
   sudo apt install -y ripgrep
   git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 }
