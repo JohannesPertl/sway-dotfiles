@@ -61,6 +61,10 @@ setup_homebrew() {
 }
 
 setup_dependencies() {
+  sudo rm /etc/apt/preferences.d/nosnap.pref
+  if cmd_missing snap; then
+    sudo apt install -y snapd
+  fi
   sudo apt update -y && sudo apt upgrade -y &&
     sudo apt install curl -y &&
     setup_git
