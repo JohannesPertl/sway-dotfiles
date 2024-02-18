@@ -165,7 +165,6 @@ setup_neovim() {
   # Nvchad 
   sudo apt install -y ripgrep
   git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
-  # TODO: Install copilot
 }
 
 setup_dev_stuff() {
