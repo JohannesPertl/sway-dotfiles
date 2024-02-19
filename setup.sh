@@ -86,6 +86,8 @@ setup_chrome() {
 
 setup_dotfiles() {
   cp -r .config ~
+  # Use improved sbdp.py script for displaying keybindings as help screen
+  sudo cp bin/sbdp.py /usr/share/sway/scripts
   swaymsg reload
 }
 
