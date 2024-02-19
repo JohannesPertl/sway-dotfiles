@@ -19,14 +19,13 @@ include $HOME/.config/sway/variables.d/*.conf
 include /etc/sway/outputs/*.conf
 include /etc/sway/inputs/*.conf
 
-# include modes
-#include /etc/sway/modes/*.conf
-
 # Additional configs
 include /etc/sway/config.d/*.conf
 
 # User config
 include $HOME/.config/sway/config.d/*.conf
+# Modes
+include $HOME/.config/sway/config.d/modes/*.conf
 
 # Include nwg-displays config's (if exists)
 include ~/.config/sway/outputs
