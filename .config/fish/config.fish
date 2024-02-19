@@ -16,6 +16,8 @@ abbr -a gp git push
 abbr -a gd git diff
 abbr -a c wl-copy
 abbr -a p wl-paste
+abbr -a dcu docker compose up
+abbr -a dcd docker compose down
 
 # Source: https://github.com/TheR1D/shell_gpt/issues/128
 # Alias sgpt as ai without quotes
