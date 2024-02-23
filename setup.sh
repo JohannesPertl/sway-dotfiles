@@ -86,6 +86,7 @@ setup_chrome() {
 
 setup_dotfiles() {
   cp -r .config ~
+  sudo cp wallpapers/nebula-teal.jpg /usr/share/backgrounds/
   # Use improved sbdp.py script for displaying keybindings as help screen
   sudo cp bin/sbdp.py /usr/share/sway/scripts
   swaymsg reload
