@@ -19,9 +19,6 @@ setup_git() {
   git config --global user.name "${git_name}"
   git config --global user.email "${git_email}"
   git config --global credential.helper store
-  # always use ssh
-  git config --global url."git@github.com:".insteadOf "https://github.com/"
-
 }
 
 setup_fish() {
@@ -47,9 +44,9 @@ setup_fish() {
 
 setup_nvm() {
   if cmd_missing nvm; then
-    fish -c "fisher install jorgebucaran/nvm.fish"
-    fish -c "nvm install latest"
-    fish -c "set --universal nvm_default_version latest"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    fish -c "fisher install FabioAntunes/fish-nvm edc/bass"
+    fish -c "nvm install node"
   fi
 }
 
@@ -77,7 +74,7 @@ setup_dependencies() {
 
 setup_chrome() {
   if cmd_missing google-chrome; then
-    sudo apt install fonts-liberation &&
+    sudo apt install -y fonts-liberation &&
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
       sudo apt install -y ./google-chrome-stable_current_amd64.deb &&
       rm ./google-chrome-stable_current_amd64.deb
@@ -92,26 +89,16 @@ setup_dotfiles() {
   swaymsg reload
 }
 
-setup_httpie(){
-  if cmd_missing http; then
-    curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
-    sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" > /etc/apt/sources.list.d/httpie.list
-    sudo apt update
-    sudo apt install httpie
-  fi
-}
-
 
 setup_tools() {
   sudo apt install pipx -y && pipx install shell-gpt && pipx ensurepath
   #npm install -g tldr
 
   sudo apt install -y jq at bat imwheel adb
-  sudo mv "$(which batcat)" /usr/bin/bat
+  sudo mv "$(which batcat)" /usr/bin/bat 2>/dev/null
   sudo cp bin/mousewheel.sh /usr/bin/scroll
 
-  setup_httpie
-
+  sudo snap install httpie
   if cmd_missing fuck; then
     pipx install thefuck && pipx ensurepath && 
 	    sudo mv ~/.local/bin/thefuck /usr/bin/thefuck
@@ -137,10 +124,11 @@ setup_docker() {
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null sudo apt-get update
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt-get update
   
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-  
+
     sudo groupadd docker
     sudo usermod -aG docker $USER
     newgrp docker
@@ -155,19 +143,34 @@ setup_vscode() {
 }
 
 setup_fonts() {
-  # Nerdfonts (required for nvchad) 
-  mkdir -p ~/.local/share/fonts
-  cd ~/.local/share/fonts
-  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-  unzip JetBrainsMono.zip
-  rm JetBrainsMono.zip
+  if ls ~/.local/share/fonts/JetBrainsMonoNerdFont* >/dev/null 2>&1; then
+    echo "JetBrainsMonoNerdFont font already exists."
+  else
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts || return
+    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+    unzip JetBrainsMono.zip
+    rm JetBrainsMono.zip
+    cd - || return
+  fi
 }
+
 
 setup_neovim() {
   brew install neovim
   # Nvchad 
-  sudo apt install -y ripgrep
-  git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+  echo "Do you want to install nvchad and delete all existing Neovim configurations? (y/n)"
+  read -r response
+
+  if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
+    echo "Proceeding with installation and deletion of existing Neovim configurations..."
+    rm -rf ~/.config/nvim
+    rm -rf ~/.local/share/nvim
+    sudo apt install -y ripgrep
+    git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+  else
+    echo "Installation aborted."
+  fi
 }
 
 setup_dev_stuff() {
