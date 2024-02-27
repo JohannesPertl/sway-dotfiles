@@ -86,6 +86,8 @@ setup_dotfiles() {
   sudo cp wallpapers/nebula-teal.jpg /usr/share/backgrounds/
   # Use improved sbdp.py script for displaying keybindings as help screen
   sudo cp bin/sbdp.py /usr/share/sway/scripts
+  # Workaround to keep laptop suspended on lid close
+  sudo cp bin/on-wakeup.sh /usr/lib/systemd/system-sleep
   swaymsg reload
 }
 
